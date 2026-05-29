@@ -1,14 +1,10 @@
-
 #import
-
 import sqlite3 #Import sqlite3 module to connect Python with the database.
-
-
-
 
 #function
 connec = sqlite3.connect("Student Grade Tracker Database.db")  #connect to the database
 helper = connec.cursor()                                       #create a cursor object to execute SQL commands
+
 #name the menu to make the code more readable
 MENU_WRITE_1 = "1"
 MENU_READ_ALL_2 = "2"
@@ -32,7 +28,6 @@ col_score = "score"
 col_grade = "grade"
 
 #create a function to sort the data
-
 # name the function "print_grade_sorter" and create a blank placeholder with data_that_userneed=None, "none" tell the system it's completely blank.   
 def print_grade_sorter(data_that_userneed=None):
     
@@ -50,22 +45,21 @@ def print_grade_sorter(data_that_userneed=None):
     # save the result that was collect by helper as a variable 
     results = helper.fetchall()
 
-
     #check if we need to output normal form or do we need to as extra column
     #(I set up a normal form to make the data more concise and excluding unnecessary information)
-    if data_that_userneed == "exam_name":
+    if data_that_userneed == col_exam_name:
     
     # if user want to order the result by our hidden column
     # , make sure the title can be shown
-        print("studentid  name  yearlevel     subject         score  grade     exam_name")
+        print("studentid  name  yearlevel     subject          score  grade     exam_name")
     
-    elif data_that_userneed == "status":
-        print("studentid  name  yearlevel     subject         score  grade     status")
+    elif data_that_userneed == col_status:
+        print("studentid  name  yearlevel     subject          score  grade     status")
    
-    elif data_that_userneed == "assignment_type":
-        print("studentid  name  yearlevel     subject         score  grade     assignment_type")
+    elif data_that_userneed == col_assignment_type:
+        print("studentid  name  yearlevel     subject          score  grade     assignment_type")
     else:
-       print("studentid  name  yearlevel     subject          score  grade")
+       print("studentid  name  yearlevel     subject           score  grade")
     
     #after the diterminatin, ready to print each data (that in results that we collect)
     for data in results:
@@ -73,11 +67,11 @@ def print_grade_sorter(data_that_userneed=None):
     #save the normal form as a variable so we can use it after more efficiently.
         normal_form =(f"{data[0]:<10}{data[1]:<10}{data[2]:<4}{data[3]:<25}{data[7]:<6}{data[8]:<4}")
     #show the normal form plus the hidden information that user required
-        if data_that_userneed == "exam_name":
+        if data_that_userneed == col_exam_name:
             print(normal_form + f" | Exam: {data[4]}")
-        elif data_that_userneed == "status":
+        elif data_that_userneed == col_status:
             print(normal_form + f" | Status: {data[5]}")
-        elif data_that_userneed == "assignment_type":
+        elif data_that_userneed == col_assignment_type:
             print(normal_form + f" | Type: {data[6]}")
     #if user didn't required print out the normal form
         else:
@@ -97,11 +91,11 @@ def insert_new_grade(id, name, year, subject, e_name, status, type, score, grade
     #connect to databse and update the data we get
     connec.commit()
 
-
-#define a fuction for single column search
+#define a fuction for single column search and add two placeholder
 def single_subject_search(column_name, user_input):
     code_select_user_id = f"SELECT * FROM Grade_tracker WHERE {column_name} = ?;"
     results = helper.execute(code_select_user_id, (user_input,)).fetchall()
+    #no results
     if not results:
         print(f"No items find with {user_input}")
     else:
@@ -112,8 +106,7 @@ def single_subject_search(column_name, user_input):
             print(f"{data[0]:<10}{data[1]:<10}{data[2]:<10}{data[3]:<25}{data[7]:<6}{data[8]:<4}")
             print(f"Exam name: {data[4]:<10}|Status: {data[5]:<10}|Assignment type: {data[6]:<10}\n")
 
-
-#define a fuction for double column search
+#define a fuction for double column search and add four placeholder
 def double_subject_search(column_name, column_name_2, user_input, user_input_2):
     code_select_to_input = f"SELECT * FROM Grade_tracker WHERE {column_name} = ? AND {column_name_2} = ?"
     results = helper.execute(code_select_to_input, (user_input, user_input_2)).fetchall() 
