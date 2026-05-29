@@ -44,7 +44,7 @@ def print_grade_sorter(data_that_userneed=None):
     
     # save the result that was collect by helper as a variable 
     results = helper.fetchall()
-
+    print("\n------Read data ordered by column name------\n")
     #check if we need to output normal form or do we need to as extra column
     #(I set up a normal form to make the data more concise and excluding unnecessary information)
     if data_that_userneed == col_exam_name:
@@ -97,9 +97,9 @@ def single_subject_search(column_name, user_input):
     results = helper.execute(code_select_user_id, (user_input,)).fetchall()
     #no results
     if not results:
-        print(f"No items find with {user_input}")
+        print(f"\nNo items found with {user_input}")
     else:
-        print("Search have complete")
+        print("\nSearch have complete\n")
         print("------------------------Search-Result-------------------------")
         print("studentid|  name  |yearlevel|     subject           |score | grade")
         for data in results:
@@ -111,9 +111,9 @@ def double_subject_search(column_name, column_name_2, user_input, user_input_2):
     code_select_to_input = f"SELECT * FROM Grade_tracker WHERE {column_name} = ? AND {column_name_2} = ?"
     results = helper.execute(code_select_to_input, (user_input, user_input_2)).fetchall() 
     if not results:
-        print(f"No items find with {user_input, user_input_2}")
+        print(f"\nNo items found with {user_input, user_input_2}")
     else:
-        print("Search have complete")
+        print("\nSearch have complete\n")
         print("------------------------Search-Result-------------------------")
         print("studentid|  name  |yearlevel|     subject           |score | grade")
         for data in results:
@@ -124,7 +124,7 @@ def double_subject_search(column_name, column_name_2, user_input, user_input_2):
 while True:
     try:
         # Ask the user what operation they want to perform on the data 
-        read_or_write = input("\nDo you like read or write\n1.write\n2.read as all \n3.enter to search specific data from specific column\n4.exit\n")
+        read_or_write = input("\nDo you like read information or upload data\n1.upload data\n2.View and sort all records\n3.enter to search specific data from specific column\n4.exit\n")
         #Check if user input valid answer(1,2,3,4)
         if read_or_write in [MENU_WRITE_1, MENU_READ_ALL_2, MENU_SEARCH_3, MENU_EXIT_4]:
 
@@ -169,7 +169,7 @@ while True:
                         print("\nPlease enter a valid number") 
             
             if read_or_write == MENU_SEARCH_3:
-                Kind_of_search = input("\nWhich kind of search?\n1. single subject search\n2.double subject search\n3.go back\n")
+                Kind_of_search = input("\nWhich kind of search?\n1. single subject search\n2. double subject search\n3. go back\n")
 
                 if Kind_of_search == SEARCH_SINGLE_1:
                     search = input("\nWhich item you like to search\n1. student id\n2. student name\n3. year level\n4. subject\n5. exam name\n6. status\n7. assignment type\n8. score\n9. grade\n10. Go back\n")   
